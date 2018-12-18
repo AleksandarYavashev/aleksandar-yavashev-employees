@@ -57,18 +57,20 @@ public class Main {
                     endDate = sdf.parse(record.get(3));
                 }
 
+                if(beginningDate.compareTo(endDate) > 0){
+                    throw new ParseException("wrong date input", 1);
+                }
 
                 //Array for Project exist
                 if (projectToList.containsKey(record.get(1))) {
                     tempRecordList = (List<Record>) projectToList.get(record.get(1));
-                    
                     tempRecordList.add(new Record(record.get(0), record.get(1), beginningDate, endDate));
                 } else {
                     tempRecordList = new ArrayList<>();
                     tempRecordList.add(new Record(record.get(0), record.get(1), beginningDate, endDate));
-
-                    projectToList.put(record.get(1), new ArrayList<Record>(tempRecordList));
                 }
+
+                projectToList.put(record.get(1), tempRecordList);
             }
             br.close();
         } catch (IOException e) {
